@@ -1,24 +1,12 @@
 package org.springclass.onlinebankingsystem.shared.object;
 
-import lombok.Getter;
-import lombok.Setter;
+public record ResponseObject(int code, String message) {
 
-@Getter
-@Setter
-public class ResponseObject {
-    private int statusCode;
-    private String message;
-
-    public ResponseObject(int statusCode, String message) {
-        this.statusCode = statusCode;
-        this.message = message;
-    }
-
-    public ResponseObject success() {
+    public static ResponseObject success() {
         return new ResponseObject(200, "success");
     }
 
-    public ResponseObject error() {
+    public static ResponseObject error() {
         return new ResponseObject(404, "Error object not found");
     }
 }

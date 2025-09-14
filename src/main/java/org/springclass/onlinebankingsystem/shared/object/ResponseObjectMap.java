@@ -4,22 +4,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
 public class ResponseObjectMap {
 
-    private ResponseObject responseObject;
 
     public Map<String, Object> responseObject(Optional<Object> obj, Long totalElements) {
         Map<String, Object> response = new HashMap<>();
         if (obj.isPresent()) {
             response.put("results", obj);
             response.put("length", totalElements);
-            response.put("response", responseObject.success());
+            response.put("response", ResponseObject.success());
         } else {
-            response.put("response", responseObject.error());
+            response.put("response", ResponseObject.error());
         }
         return response;
     }
@@ -31,21 +29,21 @@ public class ResponseObjectMap {
             response.put("page", page);
             response.put("results", obj);
             response.put("length", totalElements);
-            response.put("response", responseObject.success());
+            response.put("response", ResponseObject.success());
             response.put("totalPage", ((totalElements + size - 1) / size));
         } else {
-            response.put("response", responseObject.error());
+            response.put("response", ResponseObject.error());
         }
         return response;
     }
 
-    public Map<String, ?> responseObject(Optional<Object> obj) {
+    public Map<String, Object> responseObject(Object obj) {
         Map<String, Object> response = new HashMap<>();
-        if (obj.isPresent()) {
-            response.put("results", obj);
-            response.put("response", responseObject.success());
-        } else {
-            response.put("response", responseObject.error());
+        response.put("results", obj);
+        response.put("response", ResponseObject.success());
+
+        if (obj == null) {
+            response.put("response", ResponseObject.error());
         }
         return response;
     }

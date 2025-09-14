@@ -1,31 +1,40 @@
 package org.springclass.onlinebankingsystem.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springclass.onlinebankingsystem.controller.request.LoginRequest;
 import org.springclass.onlinebankingsystem.controller.request.RegisterRequest;
-import org.springclass.onlinebankingsystem.controller.response.AuthResponse;
 import org.springclass.onlinebankingsystem.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springclass.onlinebankingsystem.shared.object.ResponseObjectMap;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("api/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+    private final ResponseObjectMap responseObjectMap;
 
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
+    public Map<String, Object> login(@RequestBody LoginRequest loginRequest) {
+        return responseObjectMap.responseObject(authService.login(loginRequest));
+    }
+
+    @PostMapping("/logout")
+    public Map<String, Object> logout() {
+        return responseObjectMap.responseCodeWithMessage(200, "Logout successful");
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.register(registerRequest));
+    public Map<String, Object> register(@RequestBody RegisterRequest registerRequest) {
+        return responseObjectMap.responseObject(authService.register(registerRequest));
     }
 }
