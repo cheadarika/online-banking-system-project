@@ -50,5 +50,6 @@ public class BaseEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+        version = version + 1;
     }
 }

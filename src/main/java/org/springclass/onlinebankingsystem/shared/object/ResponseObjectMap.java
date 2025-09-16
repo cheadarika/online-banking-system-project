@@ -4,47 +4,44 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class ResponseObjectMap {
 
-
-    public Map<String, Object> responseObject(Optional<Object> obj, Long totalElements) {
+    public Map<String, Object> responseObject(Object obj, Long totalElements) {
         Map<String, Object> response = new HashMap<>();
-        if (obj.isPresent()) {
-            response.put("results", obj);
-            response.put("length", totalElements);
-            response.put("response", ResponseObject.success());
-        } else {
+        if (obj == null) {
             response.put("response", ResponseObject.error());
         }
+
+        response.put("results", obj);
+        response.put("length", totalElements);
+        response.put("response", ResponseObject.success());
         return response;
     }
 
-    public Map<String, Object> responseObject(Optional<Object> obj, Long totalElements, int page, int size) {
+    public Map<String, Object> responseObject(Object obj, Long totalElements, int page, int size) {
         Map<String, Object> response = new HashMap<>();
-        if (obj.isPresent()) {
-            response.put("size", size);
-            response.put("page", page);
-            response.put("results", obj);
-            response.put("length", totalElements);
-            response.put("response", ResponseObject.success());
-            response.put("totalPage", ((totalElements + size - 1) / size));
-        } else {
+        if (obj == null) {
             response.put("response", ResponseObject.error());
         }
+
+        response.put("size", size);
+        response.put("page", page);
+        response.put("results", obj);
+        response.put("length", totalElements);
+        response.put("response", ResponseObject.success());
+        response.put("totalPage", ((totalElements + size - 1) / size));
         return response;
     }
 
     public Map<String, Object> responseObject(Object obj) {
         Map<String, Object> response = new HashMap<>();
-        response.put("results", obj);
-        response.put("response", ResponseObject.success());
-
         if (obj == null) {
             response.put("response", ResponseObject.error());
         }
+        response.put("results", obj);
+        response.put("response", ResponseObject.success());
         return response;
     }
 

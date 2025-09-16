@@ -7,4 +7,5 @@ import org.springclass.onlinebankingsystem.controller.response.AuthResponse;
 public interface AuthService {
     AuthResponse login(LoginRequest loginRequest);
     AuthResponse register(RegisterRequest registerRequest);
+    void logout();
 }

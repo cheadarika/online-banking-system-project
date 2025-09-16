@@ -58,24 +58,43 @@ public class AuthServiceImpl implements AuthService {
         }
 
         final String token = jwtUtil.generateToken(userDetails);
+        enableUser(userDetails.getUsername());
         return new AuthResponse(token, userDetails.getUsername());
     }
 
     @Transactional
     public AuthResponse register(RegisterRequest registerRequest) {
         log.info("=====>>> Register Request: {}", registerRequest);
-        if (userRepository.existsByUsername(registerRequest.getUsername())) {
+        if (userRepository.existsByUsernameAndStatusTrue(registerRequest.username())) {
             throw new CustomException(404, "Username already exists!");
         }
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+
+        if (userRepository.existsByEmailAndStatusTrue(registerRequest.email())) {
             throw new CustomException(404, "Email already exists!");
         }
+
         User user = registerRequest.RegisterUser();
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setPassword(passwordEncoder.encode(registerRequest.password()));
+        user.setEnabled(true);
         userService.createUser(user);
 
         final UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
         final String token = jwtUtil.generateToken(userDetails);
         return new AuthResponse(token, user.getUsername());
+    }
+
+    @Override
+    public void logout() {
+        var user = userService.getUserInfo();
+        user.setEnabled(false);
+        userRepository.save(user);
+    }
+
+    private void enableUser(String username) {
+        var user = userRepository.findByUsernameOrEmail(username);
+        if (user.isPresent()) {
+            user.get().setEnabled(true);
+            userRepository.save(user.get());
+        }
     }
 }

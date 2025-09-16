@@ -1,17 +1,11 @@
 package org.springclass.onlinebankingsystem.controller.request;
 
-import lombok.Value;
 import org.springclass.onlinebankingsystem.repository.entity.Role;
 import org.springclass.onlinebankingsystem.repository.entity.User;
 
 import java.util.List;
 
-@Value
-public class RegisterRequest {
-    String username;
-    String password;
-    String email;
-    List<Role> roles;
+public record RegisterRequest(String username, String password, String email, List<Role> roles) {
 
     public User RegisterUser() {
         var user = new User();

@@ -28,12 +28,19 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String email;
 
+    @Getter
     private String firstName;
+    @Getter
     private String lastName;
+    @Getter
     private String phoneNumber;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Getter
+    private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -46,10 +53,16 @@ public class User extends BaseEntity implements UserDetails {
     // Constructors
     public User() {}
 
-    public User(String username, String password, String email,  Set<Role> roles) {
+    public User(String username, String password, String email, String firstName, String lastName,
+                String phoneNumber, Gender gender, Set<Role> roles
+    ) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
         this.roles = roles;
     }
 

@@ -30,6 +30,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public Map<String, Object> logout() {
+        authService.logout();
         return responseObjectMap.responseCodeWithMessage(200, "Logout successful");
     }
 

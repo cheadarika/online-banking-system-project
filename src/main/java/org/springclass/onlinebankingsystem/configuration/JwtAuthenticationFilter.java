@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springclass.onlinebankingsystem.exception.CustomException;
 import org.springclass.onlinebankingsystem.service.implement.UserServiceImpl;
 import org.springclass.onlinebankingsystem.shared.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userService.loadUserByUsername(username);
+            try {
+                this.userService.findUserEnabled(username);
+            } catch (CustomException e) {
+                logger.error(e.getMessage());
+            }
             if (jwtUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
