@@ -1,7 +1,6 @@
 package org.springclass.onlinebankingsystem.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springclass.onlinebankingsystem.exception.CustomException;
@@ -15,7 +14,7 @@ import java.io.IOException;
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         System.out.println(">>>>>>>>> customAccessDeniedHandler");
 
         var exception = new CustomException(401, "UNAUTHORIZED");
