@@ -1,10 +1,12 @@
 package org.springclass.onlinebankingsystem.shared.object;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class ResponseObjectMap {
 
@@ -42,6 +44,8 @@ public class ResponseObjectMap {
         }
         response.put("results", obj);
         response.put("response", ResponseObject.success());
+
+        log.info("response: {}", obj);
         return response;
     }
 

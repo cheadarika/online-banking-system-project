@@ -1,5 +1,6 @@
 package org.springclass.onlinebankingsystem.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.*;
 @Setter
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends BaseEntity implements UserDetails {
 
     @Getter
@@ -87,5 +89,18 @@ public class User extends BaseEntity implements UserDetails {
 
     public void removeRole(Role role) {
         roles.remove(role);
+    }
+
+    @Override
+    public String toString() {
+        return "\n---------------------------------------\n" +
+                "ID = " + getId() + "\n" +
+                "Username = " + username + "\n" +
+                "First Name = " + firstName + "\n" +
+                "Last Name = " + lastName + "\n" +
+                "Phone Number = " + phoneNumber + "\n" +
+                "Gender = " + gender + "\n" +
+                "Roles = " + roles.toString() +
+                "\n---------------------------------------\n";
     }
 }

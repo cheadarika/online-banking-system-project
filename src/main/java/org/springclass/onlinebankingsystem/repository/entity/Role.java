@@ -22,4 +22,9 @@ public class Role extends BaseEntity {
         this.name = name;
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Role = " + role ;
+    }
 }

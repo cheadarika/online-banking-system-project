@@ -96,5 +96,6 @@ public class AuthServiceImpl implements AuthService {
             user.get().setEnabled(true);
             userRepository.save(user.get());
         }
+        log.info("User \n{}", user);
     }
 }
