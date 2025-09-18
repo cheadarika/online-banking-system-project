@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -42,14 +41,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public Page<UserResponse> findAll(Optional<String> query, int page, int size) {
+    public Page<UserResponse> findAll(String query, int page, int size) {
         return userRepository.findAll((root, cq, cb) -> {
             ArrayList<Predicate> predicates = new ArrayList<>();
-            if (query.isPresent()) {
-                var username = cb.like(cb.upper(root.get("username")), "%" + query.toString().toUpperCase() + "%");
-                var firstName = cb.like(cb.upper(root.get("firstName")), "%" + query.toString().toUpperCase() + "%");
-                var lastName = cb.like(cb.upper(root.get("lastName")), "%" + query.toString().toUpperCase() + "%");
-                var email = cb.like(cb.upper(root.get("email")), "%" + query.toString().toUpperCase() + "%");
+            if (query != null && !query.isBlank()) {
+                var username = cb.like(cb.upper(root.get("username")), "%" + query.toUpperCase() + "%");
+                var firstName = cb.like(cb.upper(root.get("firstName")), "%" + query.toUpperCase() + "%");
+                var lastName = cb.like(cb.upper(root.get("lastName")), "%" + query.toUpperCase() + "%");
+                var email = cb.like(cb.upper(root.get("email")), "%" + query.toUpperCase() + "%");
                 predicates.add(cb.or(username, firstName, lastName, email));
             }
             predicates.add(cb.isTrue(root.get("status")));
@@ -99,6 +98,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User findUserEnabled(String username) {
         return userRepository.findByUsernameOrEmailAndStatusTrueAndEnabledTrue(username).orElseThrow(() ->
                 new CustomException(406, "This user has been logout, Please login again."));
+    }
+
+    @Override
+    public Boolean checkUserEnabled(String username) {
+        var user = userRepository.findByUsernameOrEmailAndStatusTrueAndEnabledTrue(username);
+        return user.isPresent();
     }
 
     @Override

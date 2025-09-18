@@ -26,6 +26,8 @@ import org.springframework.security.web.firewall.RequestRejectedHandler;
 public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,6 +40,9 @@ public class WebSecurityConfig {
                         "/swagger-ui/**",
                         "/swagger-ui.html"
                 ).permitAll().anyRequest().authenticated()
+        ).exceptionHandling(exception ->
+                exception.authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
         );
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

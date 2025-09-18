@@ -21,12 +21,15 @@ public class SpringDocConfig {
     @Value("${spring.application.name}")
     private String title;
 
+    @Value("${server.port}")
+    private String serverPort;
+
     @Bean
     protected OpenAPI openAPI() {
         var securitySchemeName = "bearerAuth";
         return new OpenAPI().addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .specVersion(SpecVersion.V31)
-                .servers(List.of(new Server().url("http://localhost:8081").description("Local endpoint")))
+                .servers(List.of(new Server().url("http://localhost:"+serverPort).description("Local endpoint")))
                 .info(new Info().title(title + " REST API").termsOfService("Term and condition"))
                 .components(new Components()
                         .addSecuritySchemes(

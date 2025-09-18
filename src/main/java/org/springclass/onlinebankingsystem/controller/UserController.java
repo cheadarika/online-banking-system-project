@@ -10,7 +10,6 @@ import org.springclass.onlinebankingsystem.shared.object.ResponseObjectMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -23,7 +22,7 @@ public class UserController {
 
     @GetMapping("/list")
     public Map<String, Object> getList(
-            @RequestParam(required = false) Optional<String> query,
+            @RequestParam(required = false) String query,
             @RequestParam int page,
             @RequestParam int size
     ) {
