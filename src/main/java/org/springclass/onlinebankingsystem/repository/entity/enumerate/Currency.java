@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Currency {
-    USD("01",1),
-    KHR("02",4000);
+    USD("01",1.0),
+    KHR("02",4000.0);
 
     private final String code;
-    private final int exchangeRate;
+    private final Double exchangeRate;
 
     public static Currency find(String name) {
         for (Currency currency : Currency.values()) {
@@ -18,6 +18,6 @@ public enum Currency {
                 return currency;
             }
         }
-        return null;
+        return Currency.USD;
     }
 }

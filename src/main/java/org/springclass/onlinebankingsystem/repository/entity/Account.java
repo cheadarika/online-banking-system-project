@@ -45,13 +45,16 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return  "\n---------------------------------------\n" +
-                "Account Name = " + accountName + "\n" +
-                "Account Number = " + accountNumber + "\n" +
-                "Currency = " + currency + "\n" +
-                "Account Type = " + accountType + "\n" +
-                "Balance = " + balance + "\n" +
-                "User ID = " + user.getId() +
-                "\n---------------------------------------\n";
+        return String.format(
+                        """
+                        ---------------------------------------
+                        Account Name   : %s\s
+                        Account Number : %s\s
+                        Account Type   : %s\s
+                        Balance        : %s %s\s
+                        User ID        : %s \s
+                        ---------------------------------------
+                        """, accountName, accountNumber, accountType, balance, currency, user.getId()
+        );
     }
 }
