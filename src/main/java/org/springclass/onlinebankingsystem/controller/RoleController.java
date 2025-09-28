@@ -2,15 +2,16 @@ package org.springclass.onlinebankingsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springclass.onlinebankingsystem.controller.response.UserResponse;
 import org.springclass.onlinebankingsystem.repository.entity.Role;
 import org.springclass.onlinebankingsystem.service.RoleService;
 import org.springclass.onlinebankingsystem.shared.object.ResponseObjectMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
 
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @Slf4j
 @RestController
 @RequestMapping("api/role")

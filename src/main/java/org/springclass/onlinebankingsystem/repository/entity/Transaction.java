@@ -63,7 +63,7 @@ public class Transaction extends BaseEntity {
     public String toString() {
         return String.format(
                         """
-                        ------------------------------------------
+                        \n------------------------------------------
                         Transaction Date   : %s\s
                         Transaction ID     : %s\s
                         Transaction Type   : %s\s

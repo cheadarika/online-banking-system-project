@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springclass.onlinebankingsystem.repository.entity.Transaction;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -26,12 +27,42 @@ public class TransactionResponse {
         this.transactionDate = transaction.getTransactionDate();
         this.transactionId = transaction.getTransactionId();
         this.transactionType = transaction.getTransactionType().name();
-        this.fromAccountNumber = transaction.getFromAccount().getAccountNumber();
-        this.toAccountNumber = transaction.getToAccount().getAccountNumber();
+        if (transaction.getFromAccount() != null) {
+            this.fromAccountNumber = transaction.getFromAccount().getAccountNumber();
+        }
+        if (transaction.getToAccount() != null) {
+            this.toAccountNumber = transaction.getToAccount().getAccountNumber();
+        }
         this.debitAmount = transaction.getAmount();
         this.currency = transaction.getCurrency().name();
         this.requestAmount = transaction.getAmount();
         this.requestCurrency = transaction.getCurrency().name();
-        this.description = transaction.getDescription();
+        if (transaction.getDescription() != null) {
+            this.description = transaction.getDescription();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                """
+                \n------------------------------------------
+                Transaction Date   : %s\s
+                Transaction ID     : %s\s
+                Transaction Type   : %s\s
+                From Account       : %s\s
+                Debit Amount       : %s %s\s
+                To Account         : %s\s
+                Amount             : %s %s\s
+                Description        : %s\s
+                ------------------------------------------
+                """,
+                new SimpleDateFormat("dd-MMM-yyyy hh:mm aa").format(transactionDate),
+                transactionId, transactionType,
+                (fromAccountNumber != null ? fromAccountNumber : ""),
+                debitAmount, currency,
+                (toAccountNumber != null ? toAccountNumber : ""),
+                requestAmount, requestCurrency, description
+        );
     }
 }

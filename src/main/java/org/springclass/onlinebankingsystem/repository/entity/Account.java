@@ -47,7 +47,7 @@ public class Account extends BaseEntity {
     public String toString() {
         return String.format(
                         """
-                        ---------------------------------------
+                        \n---------------------------------------
                         Account Name   : %s\s
                         Account Number : %s\s
                         Account Type   : %s\s
