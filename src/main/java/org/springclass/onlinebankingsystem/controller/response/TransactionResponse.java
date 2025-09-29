@@ -35,8 +35,8 @@ public class TransactionResponse {
         }
         this.debitAmount = transaction.getAmount();
         this.currency = transaction.getCurrency().name();
-        this.requestAmount = transaction.getAmount();
-        this.requestCurrency = transaction.getCurrency().name();
+        this.requestAmount = transaction.getRequestAmount();
+        this.requestCurrency = transaction.getRequestCurrency();
         if (transaction.getDescription() != null) {
             this.description = transaction.getDescription();
         }
