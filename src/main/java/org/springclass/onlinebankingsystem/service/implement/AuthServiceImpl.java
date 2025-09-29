@@ -9,8 +9,8 @@ import org.springclass.onlinebankingsystem.exception.CustomException;
 import org.springclass.onlinebankingsystem.repository.UserRepository;
 import org.springclass.onlinebankingsystem.repository.entity.User;
 import org.springclass.onlinebankingsystem.service.AuthService;
+import org.springclass.onlinebankingsystem.service.RoleService;
 import org.springclass.onlinebankingsystem.shared.utils.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,21 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private UserServiceImpl userService;
-
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    private final UserServiceImpl userService;
+    private final RoleService roleService;
 
     @Override
     public AuthResponse login(LoginRequest loginRequest) {
@@ -76,6 +67,10 @@ public class AuthServiceImpl implements AuthService {
         User user = registerRequest.RegisterUser();
         user.setPassword(passwordEncoder.encode(registerRequest.password()));
         user.setEnabled(true);
+        registerRequest.roles().forEach(r -> {
+            var role = roleService.findById(r.getId());
+            user.addRole(role);
+        });
         userService.createUser(user);
 
         final UserDetails userDetails = userService.loadUserByUsername(user.getUsername());

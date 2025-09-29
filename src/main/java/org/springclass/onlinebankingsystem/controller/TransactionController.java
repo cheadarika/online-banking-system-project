@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springclass.onlinebankingsystem.controller.request.DepositRequest;
 import org.springclass.onlinebankingsystem.controller.request.TransferRequest;
 import org.springclass.onlinebankingsystem.controller.request.WithdrawRequest;
-import org.springclass.onlinebankingsystem.controller.response.TransactionResponse;
 import org.springclass.onlinebankingsystem.service.TransactionService;
 import org.springclass.onlinebankingsystem.shared.object.ResponseObjectMap;
 import org.springframework.web.bind.annotation.*;

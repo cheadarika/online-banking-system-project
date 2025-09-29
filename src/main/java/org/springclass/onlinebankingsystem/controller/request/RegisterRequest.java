@@ -25,7 +25,6 @@ public record RegisterRequest(
         user.setLastName(lastName);
         user.setPhoneNumber(phoneNumber);
         user.setGender(gender);
-        user.addAllRole(roles);
         return user;
     }
 }
