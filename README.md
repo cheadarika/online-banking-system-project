@@ -86,7 +86,7 @@ POST http://localhost:8082/api/auth/register
     "password": "darika@123",
     "firstName": "Darika",
     "lastName": "Chea",
-    "phoneNumber": "0963184787",
+    "phoneNumber": "096123456",
     "email": "darika@gmail.com",
     "gender": "FEMALE",
     "roles": [
