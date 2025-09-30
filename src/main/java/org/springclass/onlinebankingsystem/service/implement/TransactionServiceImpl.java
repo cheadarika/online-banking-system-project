@@ -1,5 +1,6 @@
 package org.springclass.onlinebankingsystem.service.implement;
 
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springclass.onlinebankingsystem.controller.request.DepositRequest;
@@ -13,6 +14,9 @@ import org.springclass.onlinebankingsystem.repository.entity.enumerate.Currency;
 import org.springclass.onlinebankingsystem.repository.entity.enumerate.TransactionType;
 import org.springclass.onlinebankingsystem.service.AccountService;
 import org.springclass.onlinebankingsystem.service.TransactionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +43,18 @@ public class TransactionServiceImpl implements TransactionService {
             return Optional.empty();
         }
         return transactionList.map(this::toResponse);
+    }
+
+    @Override
+    public Page<TransactionResponse> getAllByAccountId(String accountNumber, Long userId, int page, int size) {
+        return repository.findAll((root, cq, cb) -> {
+            ArrayList<Predicate> predicates = new ArrayList<>();
+            var account = cb.equal(root.get("accountNumber"), accountNumber);
+            var user = cb.equal(root.get("userId"), userId);
+            predicates.add(cb.and(account, user));
+            predicates.add(cb.isTrue(root.get("status")));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        }, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"))).map(TransactionResponse::new);
     }
 
     @Override

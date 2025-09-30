@@ -38,7 +38,13 @@ public class TransactionController {
     }
 
     @GetMapping("/list/user/{userId}/account/{accountNumber}")
-    public Map<String, Object> getListTransactionByAccountId(@PathVariable Long userId, @PathVariable String accountNumber) {
-        return response.responseObject(service.getAllByAccountId(accountNumber, userId));
+    public Map<String, Object> getListTransactionByAccountId(
+            @PathVariable Long userId,
+            @PathVariable String accountNumber,
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        var item = service.getAllByAccountId(accountNumber, userId, page, size);
+        return response.responseObject(item.getContent(), item.getTotalElements(), page, size);
     }
 }

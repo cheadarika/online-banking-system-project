@@ -12,6 +12,7 @@ import org.springclass.onlinebankingsystem.service.AccountService;
 import org.springclass.onlinebankingsystem.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
             }
             predicates.add(cb.isTrue(root.get("status")));
             return cb.and(predicates.toArray(new Predicate[0]));
-        }, PageRequest.of(page, size));
+        }, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
     }
 
     @Override

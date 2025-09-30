@@ -2,13 +2,13 @@ package org.springclass.onlinebankingsystem.service.implement;
 
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.springclass.onlinebankingsystem.controller.response.UserResponse;
 import org.springclass.onlinebankingsystem.exception.CustomException;
 import org.springclass.onlinebankingsystem.repository.RoleRepository;
 import org.springclass.onlinebankingsystem.repository.entity.Role;
 import org.springclass.onlinebankingsystem.service.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +56,6 @@ public class RoleServiceImpl implements RoleService {
             }
             predicates.add(cb.isTrue(root.get("status")));
             return cb.and(predicates.toArray(new Predicate[0]));
-        }, PageRequest.of(page, size));
+        }, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
     }
 }

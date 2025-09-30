@@ -12,6 +12,7 @@ import org.springclass.onlinebankingsystem.repository.entity.User;
 import org.springclass.onlinebankingsystem.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             }
             predicates.add(cb.isTrue(root.get("status")));
             return cb.and(predicates.toArray(new Predicate[0]));
-        }, PageRequest.of(page, size)).map(UserResponse::new);
+        }, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"))).map(UserResponse::new);
     }
 
     @Override
